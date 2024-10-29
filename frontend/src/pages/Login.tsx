@@ -1,55 +1,79 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid2'
 import Button from '@mui/material/Button'
+import { IconButton, TextField } from '@mui/material'
+import Lock from '@mui/icons-material/Lock'
+import Box from '@mui/material/Box'
+import Alert from '@mui/material/Alert'
 
 function Login() {
 
+  const dbuser = 'Carlos'
+  const dbpswd = '1234567890'
+
+  var [username, setUsername] = useState('')
+  var [password, setPassword] = useState('')
+
+  var [alert, setAlert] = useState('')
+
+  const navigate = useNavigate()
+  
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    if (username == dbuser) {
+      if (password == dbpswd) {
+        console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Éxito")
+        navigate('/home')         //Comentar para ver el alert de exito
+        //setAlert('success')     Descomentar para ver el alert de exito
+        return
+      }
+    }
+    console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Error")
+    setAlert('error')
+  }
+
+  function handleUser(event: any) {
+    setUsername(event.target.value)
+  }
+  function handlePassword(event: any) {
+    setPassword(event.target.value)
+  }
+
   return (
-    <> 
-    <header>
-      <Typography variant='h4'>Página Login de Carlos Jesús Araña Guedes</Typography>
-    </header>
-    <main>
-      <Container>
+    <>
+      <header>
+        <br></br>
+      </header>
+      <main>
+        <Box component='form' onSubmit={handleSubmit}>
+          <Grid container direction={'column'} spacing={2}>
 
-        <Typography variant='h1'>H1</Typography>
-        <Typography variant='subtitle1'>Subtitle1</Typography>
-        <Typography variant='h2'>H2</Typography>
-        <Typography variant='h3'>H3</Typography>
-        <Typography variant='body1'>Body1</Typography>
-        <Typography variant='caption'>Caption</Typography>
-        <br />
-        <Button variant='text' color='primary'>Text - Primary</Button>
-        <Button variant='contained' color='primary'>Contained - Primary</Button>
-        <Button variant='outlined' color='primary'>Outlined - Primary</Button>
-        <br />
-        <Button variant='text' color='secondary'>Text - Secondary</Button>
-        <Button variant='contained' color='secondary'>Contained - Secondary</Button>
-        <Button variant='outlined' color='secondary'>Outlined - Secondary</Button>
-        <br />
-        <Button variant='text' color='error'>Text - Error</Button>
-        <Button variant='contained' color='error'>Contained - Error</Button>
-        <Button variant='outlined' color='error'>Outlined - Error</Button>
-        <br />
-        <Button variant='text' color='success'>Text - Success</Button>
-        <Button variant='contained' color='success'>Contained - Success</Button>
-        <Button variant='outlined' color='success'>Outlined - Success</Button>
-        <br />
-        <Button variant='text' color='warning'>Text - Warning</Button>
-        <Button variant='contained' color='warning'>Contained - Warning</Button>
-        <Button variant='outlined' color='warning'>Outlined - Warning</Button>
-        <br />
-        <Button variant='text' disabled>Text - Disabled</Button>
-        <Button variant='contained' disabled>Contained - Disabled</Button>
-        <Button variant='outlined' disabled>Outlined - Disabled</Button>
+            <Typography variant='h4'>Sistema de acceso</Typography>
+            <IconButton><Lock /></IconButton>
+            <TextField required label='Usuario' onChange={handleUser}></TextField>
+            <TextField required type='password' label='Contraseña' onChange={handlePassword}></TextField>
 
-      </Container>
+            <Button variant='contained' type='submit'>Acceso</Button>
+            <br />
+          </Grid>
+        </Box>
+
       </main>
+      {alert == '' ?
+        <></>
+        :
+        alert == 'success' ?
+          <Alert severity="success" >Acceso concedido</Alert>
+          :
+          <Alert severity="error" >Usuario y/o contraseña incorrectos</Alert>
+      }
       <footer>
-        <Typography>Typography en el 'footer'</Typography>
-        <Button variant='contained' color='primary'>Button en el 'footer'</Button>
+        <br></br>
       </footer>
+
     </>
   )
 }

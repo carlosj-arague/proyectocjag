@@ -1,13 +1,38 @@
 
 import Login from './pages/Login'
+import Home from './pages/Home'
+import Reports from './pages/Reports'
+import ErrorPage from './pages/ErrorPage'
+import './App.css'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-//import './App.css'
+const router = createBrowserRouter([
+  {
+    path: '/',
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Login />
+      },
+      {
+        path: 'home',
+        element: <Home />
+      },
+      {
+        path: 'reports',
+        element: <Reports />
+      }
+    ]
+  },
+]);
+
 
 function App() {
 
   return (
     <>
-      <Login/>
+      <RouterProvider router={router} />
     </>
   )
 }
