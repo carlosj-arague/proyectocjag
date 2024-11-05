@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/index'
+
+import { useDispatch } from 'react-redux'
+import { authActions } from '../store/authSlice';
+
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid2'
 import Button from '@mui/material/Button'
@@ -10,6 +16,7 @@ import Box from '@mui/material/Box'
 import Alert from '@mui/material/Alert'
 
 function Login() {
+  const dispatch = useDispatch()
 
   const dbuser = 'Carlos'
   const dbpswd = '1234567890'
@@ -20,11 +27,16 @@ function Login() {
   var [alert, setAlert] = useState('')
 
   const navigate = useNavigate()
-  
+
   function handleSubmit(e: any) {
     e.preventDefault();
     if (username == dbuser) {
       if (password == dbpswd) {
+        dispatch(authActions.login({
+          name: username,
+          rol: 'administrador'
+        }))
+
         console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Éxito")
         navigate('/home')         //Comentar para ver el alert de exito
         //setAlert('success')     Descomentar para ver el alert de exito

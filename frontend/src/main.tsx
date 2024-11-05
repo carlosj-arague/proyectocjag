@@ -1,5 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
+import { Provider } from 'react-redux'
+import { store } from './store/index'
+
 import App from './App.tsx'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import createTheme from '@mui/material/styles/createTheme'
@@ -31,14 +35,16 @@ const customTheme = createTheme({
       main: '#359bd2',
     },
   },
- })
- 
- createRoot(document.getElementById('root')!).render(
+})
+
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
-  <ThemeProvider theme={customTheme}>
-  <CssBaseline />
-  <App />
-  </ThemeProvider>
+    <ThemeProvider theme={customTheme}>
+      <CssBaseline />
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
   </StrictMode>
 
 )
