@@ -22,7 +22,7 @@ function ErrorPage() {
                 <Typography variant='h3'>
                     ¡Vaya! Algo salió mal
                 </Typography>
-                <IconButton color='warning'><SentimentVeryDissatisfiedIcon fontSize='large' /></IconButton>
+                <IconButton color='error'><SentimentVeryDissatisfiedIcon fontSize='large' /></IconButton>
                 <h1>Página no encontrada</h1>
                 <p>El enlace al que ha sido redirigido no lista en la aplicación</p>
                 <p>

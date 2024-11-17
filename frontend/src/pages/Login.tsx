@@ -18,9 +18,6 @@ import Alert from '@mui/material/Alert'
 function Login() {
   const dispatch = useDispatch()
 
-  const dbuser = 'Carlos'
-  const dbpswd = '1234567890'
-
   var [username, setUsername] = useState('')
   var [password, setPassword] = useState('')
 
@@ -28,23 +25,26 @@ function Login() {
 
   const navigate = useNavigate()
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-    if (username == dbuser) {
-      if (password == dbpswd) {
-        dispatch(authActions.login({
-          name: username,
-          rol: 'administrador'
-        }))
-
-        console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Éxito")
-        navigate('/home')         //Comentar para ver el alert de exito
-        //setAlert('success')     Descomentar para ver el alert de exito
-        return
-      }
-    }
-    console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Error")
-    setAlert('error')
+    fetch(`http://localhost:3030/login?user=${username}&password=${password}`)
+    .then(response => response.json())
+    .then (response => {
+    console.log('Lo que nos llega de la base de datos: ')
+    console.log(response.data)
+    if (response.data.length !== 0){
+      
+      console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Éxito")
+      dispatch(authActions.login({
+        name: response.data.nombre, //data.user es el nombre de usuario que ha ingresado el usuario
+        rol: response.data.rol
+       }))
+      navigate('/home')
+      } else{
+        console.log('Nombre de usuario: ' + username + ' - Contraseña: ' + password + " - Error")
+        setAlert('error')
+      }}
+    )
   }
 
   function handleUser(event: any) {
@@ -56,10 +56,6 @@ function Login() {
 
   return (
     <>
-      <header>
-        <br></br>
-      </header>
-      <main>
         <Box component='form' onSubmit={handleSubmit}>
           <Grid container direction={'column'} spacing={2}>
 
@@ -73,7 +69,6 @@ function Login() {
           </Grid>
         </Box>
 
-      </main>
       {alert == '' ?
         <></>
         :
@@ -82,9 +77,6 @@ function Login() {
           :
           <Alert severity="error" >Usuario y/o contraseña incorrectos</Alert>
       }
-      <footer>
-        <br></br>
-      </footer>
 
     </>
   )
