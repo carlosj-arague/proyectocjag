@@ -32,12 +32,12 @@ function Menu() {
     const userData = useSelector((state: RootState) => state.authenticator)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+
     useEffect(() => {
         if (!userData.isAutenticated) {
-         navigate('/')
-         }
-         }, [userData.isAutenticated, navigate])
+            navigate('/')
+        }
+    }, [userData.isAutenticated, navigate])
 
 
 
@@ -56,12 +56,16 @@ function Menu() {
                         <ListItemText primary={pages[0]} />
                     </ListItemButton>
                 </Link>
-                <Link to={'/reports'} style={{ textDecoration: 'none', color: 'black' }}>
-                    <ListItemButton>
-                        <ListItemIcon><SummarizeIcon /></ListItemIcon>
-                        <ListItemText primary={pages[1]} />
-                    </ListItemButton>
-                </Link>
+
+                {userData.userRol == 'admin' ?
+                    <Link to={'/reports'} style={{ textDecoration: 'none', color: 'black' }}>
+                        <ListItemButton>
+                            <ListItemIcon><SummarizeIcon /></ListItemIcon>
+                            <ListItemText primary={pages[1]} />
+                        </ListItemButton>
+                    </Link> : <></>
+                }
+
                 <Link to={'/help'} style={{ textDecoration: 'none', color: 'black' }}>
                     <ListItemButton>
                         <ListItemIcon><HelpIcon /></ListItemIcon>
@@ -79,8 +83,8 @@ function Menu() {
     )
 
 
-    
-       
+
+
 
     function handleLogout() {
         dispatch(authActions.logout())
@@ -92,14 +96,14 @@ function Menu() {
             <main>
                 <AppBar>
                     <Toolbar>
-                    <IconButton
+                        <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
                             onClick={toggleDrawer(true)}
-                        ><MenuIcon/>
+                        ><MenuIcon />
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{userData.userName}</Typography>
                         <IconButton
@@ -109,14 +113,14 @@ function Menu() {
                             aria-label="user role"
                             sx={{ mr: 2 }}
                         >
-                            {userData.userRol=='admin' ?
-                            <AdminPanelSettingsIcon /> : <PersonIcon/>
+                            {userData.userRol == 'admin' ?
+                                <AdminPanelSettingsIcon /> : <PersonIcon />
                             }
 
                         </IconButton>
                     </Toolbar>
                 </AppBar>
-                <br/><br/><br/>
+                <br /><br /><br />
             </main>
             <Drawer open={openDrawer} onClose={toggleDrawer(false)}>
                 {DrawerList}

@@ -21,15 +21,15 @@ import TableBody from '@mui/material/TableBody';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 function Menu() {
-
+    const userData = useSelector((state: RootState) => state.authenticator)
     const [tableData, setTableData] = useState([])
     const [showTable, setShowTable] = useState(true);
     useEffect(() => {
         if (showTable) {
             getItems();
             setShowTable(false);
-          }
-        }, [showTable]);
+        }
+    }, [showTable]);
 
     interface itemtype {
         id?: number
@@ -40,9 +40,9 @@ function Menu() {
     }
 
     const itemInitialState: itemtype = {
-        nombre: ' ',
-        marca: ' ',
-        tipo: ' ',
+        nombre: '',
+        marca: '',
+        tipo: '',
         precio: 0
     }
     const [item, setItem] = useState(itemInitialState)
@@ -80,6 +80,7 @@ function Menu() {
             .then(response => {
                 if (response > 0) {
                     getItems()
+                    clearFields()
                     alert("Datos enviados con éxito")
                 } else {
                     alert("Error. No se han insertado los datos")
@@ -88,13 +89,23 @@ function Menu() {
             )
     }
 
+    function clearFields() {
+        setItem({
+            nombre: '',
+            marca: '',
+            tipo: '',
+            precio: 0
+        }
+        )
+    }
+
     async function getItems() {
         fetch(`http://localhost:3030/getItems`)
-          .then(response => response.json())
-          .then(response => {
-            setTableData(response.data);
-          });
-      }
+            .then(response => response.json())
+            .then(response => {
+                setTableData(response.data);
+            });
+    }
 
     function handleDeleteItem(row: itemtype) {
         console.log(row.id)
@@ -114,14 +125,14 @@ function Menu() {
 
     return (
         <>
-        
+
             <main>
                 <Box sx={{ xs: '12', md: '6' }}>
                     <form onSubmit={handleSubmit}>
-                        <TextField required label='Nombre' onChange={handleNombre}></TextField>
-                        <TextField required label='Marca' onChange={handleMarca}></TextField>
-                        <TextField required label='Tipo' onChange={handleTipo}></TextField>
-                        <TextField required label='Precio' type='number' onChange={handlePrecio}></TextField>
+                        <TextField required label='Nombre' value={item.nombre} onChange={handleNombre}></TextField>
+                        <TextField required label='Marca' value={item.marca} onChange={handleMarca}></TextField>
+                        <TextField required label='Tipo' value={item.tipo} onChange={handleTipo}></TextField>
+                        <TextField required label='Precio' value={item.precio} type='number' onChange={handlePrecio}></TextField>
                         <br /><br />
                         <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
                     </form>
@@ -143,9 +154,12 @@ function Menu() {
                         {tableData.map((row: itemtype) => (
                             <TableRow key={row.id}>
                                 <TableCell align='center'>
-                                    <Button onClick={() => handleDeleteItem(row)}>
-                                        <DeleteForeverIcon />
-                                    </Button>
+                                    {userData.userRol == 'admin'
+                                        ? <Button onClick={() => handleDeleteItem(row)}>
+                                            <DeleteForeverIcon />
+                                        </Button> : <></>
+                                    }
+
                                 </TableCell>
                                 <TableCell align='center'>{row.nombre}</TableCell>
                                 <TableCell align='center'>{row.marca}</TableCell>

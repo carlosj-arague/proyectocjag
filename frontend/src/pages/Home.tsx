@@ -9,6 +9,7 @@ function Home() {
     const userData = useSelector((state: RootState) => state.authenticator)
     const [tableData, setTableData] = useState([])
 
+
     return (
         <>
             <Menu/>
