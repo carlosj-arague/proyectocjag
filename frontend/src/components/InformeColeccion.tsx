@@ -66,7 +66,6 @@ function InformeColeccion( {data} : ProductsArray ) {
                 filtering: true,
                 
             }
-            
         }
         
         />)

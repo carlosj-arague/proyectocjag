@@ -20,7 +20,7 @@ import TableBody from '@mui/material/TableBody';
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-function Menu() {
+function Dashboard() {
     const userData = useSelector((state: RootState) => state.authenticator)
     const [tableData, setTableData] = useState([])
     const [showTable, setShowTable] = useState(true);
@@ -127,16 +127,18 @@ function Menu() {
         <>
 
             <main>
-                <Box sx={{ xs: '12', md: '6' }}>
-                    <form onSubmit={handleSubmit}>
-                        <TextField required label='Nombre' value={item.nombre} onChange={handleNombre}></TextField>
-                        <TextField required label='Marca' value={item.marca} onChange={handleMarca}></TextField>
-                        <TextField required label='Tipo' value={item.tipo} onChange={handleTipo}></TextField>
-                        <TextField required label='Precio' value={item.precio} type='number' onChange={handlePrecio}></TextField>
-                        <br /><br />
-                        <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
-                    </form>
-                </Box>
+                {userData.userRol != "guest" ?
+                    <Box sx={{ xs: '12', md: '6' }}>
+                        <form onSubmit={handleSubmit}>
+                            <TextField required label='Nombre' value={item.nombre} onChange={handleNombre}></TextField>
+                            <TextField required label='Marca' value={item.marca} onChange={handleMarca}></TextField>
+                            <TextField required label='Tipo' value={item.tipo} onChange={handleTipo}></TextField>
+                            <TextField required label='Precio' value={item.precio} type='number' onChange={handlePrecio}></TextField>
+                            <br /><br />
+                            <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
+                        </form>
+                    </Box> : <></>
+                }
             </main>
 
             <TableContainer>
@@ -176,5 +178,5 @@ function Menu() {
     )
 }
 
-export default Menu
+export default Dashboard
 

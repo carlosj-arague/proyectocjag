@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/index'
@@ -27,6 +26,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 
 function Menu() {
     const userData = useSelector((state: RootState) => state.authenticator)
@@ -45,7 +45,7 @@ function Menu() {
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpenDrawer(newOpen);
     };
-    const pages = ['Inicio', 'Informes', 'Ayuda', 'Salir']
+    const pages = ['Inicio', 'Informes', 'Gestion Usuarios', 'Ayuda', 'Salir']
 
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -66,16 +66,24 @@ function Menu() {
                     </Link> : <></>
                 }
 
+                {userData.userRol == 'admin' ?
+                    <Link to={'/userManagement'} style={{ textDecoration: 'none', color: 'black' }}>
+                        <ListItemButton>
+                            <ListItemIcon><PersonIcon /></ListItemIcon>
+                            <ListItemText primary={pages[2]} />
+                        </ListItemButton>
+                    </Link> : <></>
+                }
                 <Link to={'/help'} style={{ textDecoration: 'none', color: 'black' }}>
                     <ListItemButton>
                         <ListItemIcon><HelpIcon /></ListItemIcon>
-                        <ListItemText primary={pages[2]} />
+                        <ListItemText primary={pages[3]} />
                     </ListItemButton>
                 </Link>
                 <Link to={'/'} style={{ textDecoration: 'none', color: 'black' }}>
                     <ListItemButton>
                         <ListItemIcon onClick={handleLogout}><LogoutIcon /></ListItemIcon>
-                        <ListItemText primary={pages[3]} />
+                        <ListItemText primary={pages[4]} />
                     </ListItemButton>
                 </Link>
             </List>
@@ -114,7 +122,9 @@ function Menu() {
                             sx={{ mr: 2 }}
                         >
                             {userData.userRol == 'admin' ?
-                                <AdminPanelSettingsIcon /> : <PersonIcon />
+                                <AdminPanelSettingsIcon /> :
+                                userData.userRol == 'user' ?
+                                    <PersonIcon /> : <InsertEmoticonIcon />
                             }
 
                         </IconButton>

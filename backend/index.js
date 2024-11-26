@@ -68,6 +68,25 @@ app.get('/deleteItem', async function (req, res, next) {
     }
 })
 
+app.get('/getUsers', async function (req, res, next) {
+    try {
+        res.json(await items.getUsers(req, res))
+    } catch (err) {
+        console.error(`Error while getting items `, err.message);
+        next(err);
+    }
+})
+
+app.get('/addUser', async function (req, res, next) {
+
+    try {
+        res.json(await items.insertUser(req, res))
+    } catch (err) {
+        console.error(`Error while inserting items `, err.message);
+        next(err);
+    }
+})
+
 //Iniciamos la API
 app.listen(port)
 console.log('API escuchando en el puerto ' + port)
