@@ -127,7 +127,7 @@ function Dashboard() {
         <>
 
             <main>
-                {userData.userRol != "guest" ?
+                
                     <Box sx={{ xs: '12', md: '6' }}>
                         <form onSubmit={handleSubmit}>
                             <TextField required label='Nombre' value={item.nombre} onChange={handleNombre}></TextField>
@@ -135,10 +135,13 @@ function Dashboard() {
                             <TextField required label='Tipo' value={item.tipo} onChange={handleTipo}></TextField>
                             <TextField required label='Precio' value={item.precio} type='number' onChange={handlePrecio}></TextField>
                             <br /><br />
-                            <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
+                            {userData.userRol != "guest" ?
+                                <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
+                                : <Button variant='outlined' type='submit' disabled>+ INSERTAR DATOS</Button>
+                            }
                         </form>
                     </Box> : <></>
-                }
+                
             </main>
 
             <TableContainer>
