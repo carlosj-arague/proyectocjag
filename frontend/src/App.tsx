@@ -5,6 +5,7 @@ import Reports from './pages/Reports'
 import ErrorPage from './pages/ErrorPage'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import GestionUsuarios from './pages/GestionUsuarios'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: 'reports',
         element: <Reports />
+      },
+      {
+        path: 'userManagement',
+        element: <GestionUsuarios />
       }
     ]
   },
