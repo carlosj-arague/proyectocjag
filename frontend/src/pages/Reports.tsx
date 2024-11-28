@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import Menu from '../components/Menu'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
+import Tooltip from '@mui/material/Tooltip'
 
 import InformeColeccion from '../components/InformeColeccion'
 
@@ -25,12 +26,16 @@ function Reports() {
     }
     const [coleccion, setColeccion] = useState<itemtype[]>([])
     const [clicked, setClicked] = useState(false);
+    const [tooltip, setTooltip] = useState("Mostrar tabla")
 
     function handleClick() {
         getItems()
-        setClicked(!clicked)
-        if (clicked) {
+        if (!clicked) {
+            setTooltip("Ocultar tabla")
+        } else {
+            setTooltip("Mostrar tabla") 
         }
+        setClicked(!clicked)
     }
 
     async function getItems() {
@@ -50,7 +55,9 @@ function Reports() {
             </header>
             <main>
                 <Paper>
-                    <Button variant='contained' onClick={handleClick}>INFORME COLECCION</Button>
+                    <Tooltip title={tooltip} arrow placement='bottom'>
+                        <Button variant='contained' onClick={handleClick}>INFORME COLECCION</Button>
+                    </Tooltip>
                 </Paper>
                 {clicked ?
                     <><InformeColeccion data={coleccion} /></>

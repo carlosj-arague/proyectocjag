@@ -19,8 +19,9 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import Tooltip from '@mui/material/Tooltip';
 
-function Menu() {
+function Dashboard() {
     const userData = useSelector((state: RootState) => state.authenticator)
     const [tableData, setTableData] = useState([])
     const [showTable, setShowTable] = useState(true);
@@ -126,7 +127,8 @@ function Menu() {
     return (
         <>
 
-            <main>
+            <main> 
+
                 <Box sx={{ xs: '12', md: '6' }}>
                     <form onSubmit={handleSubmit}>
                         <TextField required label='Nombre' value={item.nombre} onChange={handleNombre}></TextField>
@@ -134,9 +136,15 @@ function Menu() {
                         <TextField required label='Tipo' value={item.tipo} onChange={handleTipo}></TextField>
                         <TextField required label='Precio' value={item.precio} type='number' onChange={handlePrecio}></TextField>
                         <br /><br />
-                        <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
+                        {userData.userRol != "guest" ?
+                            <Tooltip title={"Insertar datos"} arrow placement='bottom'>
+                                <Button variant='outlined' type='submit'>+ INSERTAR DATOS</Button>
+                            </Tooltip>
+                            : <Button variant='outlined' type='submit' disabled>+ INSERTAR DATOS</Button>
+                        }
                     </form>
                 </Box>
+
             </main>
 
             <TableContainer>
@@ -155,9 +163,12 @@ function Menu() {
                             <TableRow key={row.id}>
                                 <TableCell align='center'>
                                     {userData.userRol == 'admin'
-                                        ? <Button onClick={() => handleDeleteItem(row)}>
-                                            <DeleteForeverIcon />
-                                        </Button> : <></>
+                                        ?
+                                        <Tooltip title={"Borrar registro"} arrow placement='bottom'>
+                                            <Button onClick={() => handleDeleteItem(row)}>
+                                                <DeleteForeverIcon />
+                                            </Button>
+                                        </Tooltip> : <></>
                                     }
 
                                 </TableCell>
@@ -176,5 +187,5 @@ function Menu() {
     )
 }
 
-export default Menu
+export default Dashboard
 

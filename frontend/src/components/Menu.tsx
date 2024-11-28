@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/index'
@@ -27,6 +26,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
+
+import Tooltip from '@mui/material/Tooltip';
 
 function Menu() {
     const userData = useSelector((state: RootState) => state.authenticator)
@@ -45,7 +47,7 @@ function Menu() {
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpenDrawer(newOpen);
     };
-    const pages = ['Inicio', 'Informes', 'Ayuda', 'Salir']
+    const pages = ['Inicio', 'Informes', 'Gestion Usuarios', 'Ayuda', 'Salir']
 
     const DrawerList = (
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -66,16 +68,24 @@ function Menu() {
                     </Link> : <></>
                 }
 
-                <Link to={'/help'} style={{ textDecoration: 'none', color: 'black' }}>
+                {userData.userRol == 'admin' ?
+                    <Link to={'/userManagement'} style={{ textDecoration: 'none', color: 'black' }}>
+                        <ListItemButton>
+                            <ListItemIcon><PersonIcon /></ListItemIcon>
+                            <ListItemText primary={pages[2]} />
+                        </ListItemButton>
+                    </Link> : <></>
+                }
+                <Link to={'/ManualDeUsuario.pdf'} style={{ textDecoration: 'none', color: 'black' }} target='_blank'>
                     <ListItemButton>
                         <ListItemIcon><HelpIcon /></ListItemIcon>
-                        <ListItemText primary={pages[2]} />
+                        <ListItemText primary={pages[3]} />
                     </ListItemButton>
                 </Link>
                 <Link to={'/'} style={{ textDecoration: 'none', color: 'black' }}>
                     <ListItemButton>
                         <ListItemIcon onClick={handleLogout}><LogoutIcon /></ListItemIcon>
-                        <ListItemText primary={pages[3]} />
+                        <ListItemText primary={pages[4]} />
                     </ListItemButton>
                 </Link>
             </List>
@@ -102,11 +112,13 @@ function Menu() {
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
-                            onClick={toggleDrawer(true)}
-                        ><MenuIcon />
+                            onClick={toggleDrawer(true)}>
+                            <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{userData.userName}</Typography>
-                        <IconButton
+
+                        <Tooltip title={"Rol: " + userData.userRol} arrow placement='bottom'>
+                            <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
@@ -114,10 +126,13 @@ function Menu() {
                             sx={{ mr: 2 }}
                         >
                             {userData.userRol == 'admin' ?
-                                <AdminPanelSettingsIcon /> : <PersonIcon />
+                                <AdminPanelSettingsIcon /> :
+                                userData.userRol == 'user' ?
+                                    <PersonIcon /> : <InsertEmoticonIcon />
                             }
 
                         </IconButton>
+                        </Tooltip>
                     </Toolbar>
                 </AppBar>
                 <br /><br /><br />
@@ -126,7 +141,7 @@ function Menu() {
                 {DrawerList}
             </Drawer>
 
-        </>
+        </>  
     )
 }
 

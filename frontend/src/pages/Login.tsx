@@ -67,7 +67,7 @@ function Login() {
             <Button variant='contained' type='submit'>Acceso</Button>
             <br />
           </Grid>
-        </Box>
+        </Box> 
 
       {alert == '' ?
         <></>

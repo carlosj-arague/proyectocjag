@@ -18,7 +18,7 @@ function ErrorPage() {
 
     return (
         <>
-            <div id="error-page" >
+            <div id="error-page" > 
                 <Typography variant='h3'>
                     ¡Vaya! Algo salió mal
                 </Typography>

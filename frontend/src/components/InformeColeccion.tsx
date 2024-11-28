@@ -36,7 +36,7 @@ function InformeColeccion( {data} : ProductsArray ) {
     ));
 
     return (
-        <MaterialTable
+        <MaterialTable 
         title= "Tabla Coleccion"
             columns={col} data={tableData}
             renderSummaryRow={({column, data}) =>
@@ -66,7 +66,6 @@ function InformeColeccion( {data} : ProductsArray ) {
                 filtering: true,
                 
             }
-            
         }
         
         />)
