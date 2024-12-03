@@ -37,7 +37,7 @@ function InformeColeccion( {data} : ProductsArray ) {
 
     return (
         <MaterialTable 
-        title= "Tabla Coleccion"
+        title= "Informe Coleccion"
             columns={col} data={tableData}
             renderSummaryRow={({column, data}) =>
                     column.field === "precio" ?
@@ -49,11 +49,11 @@ function InformeColeccion( {data} : ProductsArray ) {
                 exportMenu: [
                     {
                         label: "Exportar a PDF",
-                        exportFunc: (cols, datas) => ExportPdf(cols, datas, "Tabla Coleccion"),
+                        exportFunc: (cols, datas) => ExportPdf(cols, datas, "Informe Coleccion"),
                     },
                     {
                         label: "Exportar a CSV",
-                        exportFunc: (cols, datas) => ExportCsv(cols, datas, "Tabla Coleccion"),
+                        exportFunc: (cols, datas) => ExportCsv(cols, datas, "Informe Coleccion"),
                     },
                 ],
                 headerStyle: {
